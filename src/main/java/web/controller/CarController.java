@@ -1,5 +1,6 @@
 package web.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,19 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class CarController {
 
+    private CarService carService;
     @GetMapping(value = "/cars")
     public String getCars(@RequestParam(value = "count", defaultValue = "5") int count, ModelMap model) {
-        List<Car> cars = new ArrayList<>() {{
-            add(new Car("Lancia", "lybra", 2000));
-            add(new Car("Mersedess-benzz", "s500", 2015));
-            add(new Car("RangeRover", "Velar", 2020));
-            add(new Car("Skoda", "Superb", 2020));
-            add(new Car("Kia", "K5", 2020));
-        }};
-        cars = CarService.getCarsCount(cars, count);
-        model.addAttribute("cars", cars);
+        model.addAttribute("cars", carService.getCountCar(count) );
         return "car";
     }
 
